@@ -1,0 +1,135 @@
+import React from 'react';
+import { BookOpen, Shield, Target, Info, Mail, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+
+export default function Footer() {
+  const [showPrivacy, setShowPrivacy] = React.useState(false);
+
+  return (
+    <footer className="max-w-[1800px] mx-auto px-6 lg:px-8 pb-12 pt-12 border-t border-slate-800/60">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12">
+        {/* Newsletter Section */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="flex items-center gap-2">
+            <Mail className="w-5 h-5 text-amber-500" />
+            <h3 className="text-sm font-bold text-slate-200 uppercase tracking-[0.2em]">Intelligence Briefing</h3>
+          </div>
+          <p className="text-sm text-slate-400 max-w-md leading-relaxed">
+            Subscribe to receive high-frequency strategic reports and kinetic alert summaries directly to your terminal.
+          </p>
+          <form className="flex gap-2 max-w-md" onSubmit={(e) => e.preventDefault()}>
+            <input 
+              type="email" 
+              placeholder="operator@secure-net.gov" 
+              className="flex-1 bg-slate-950 border border-slate-800 rounded px-4 py-2 text-sm focus:outline-none focus:border-amber-500 transition-colors font-mono"
+            />
+            <button className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-2 rounded text-xs uppercase tracking-widest transition-colors">
+              Subscribe
+            </button>
+          </form>
+        </div>
+
+        {/* Tactical Glossary */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-amber-500" />
+            <h3 className="text-[11px] font-bold text-slate-300 uppercase tracking-[0.2em]">Tactical Glossary</h3>
+          </div>
+          <div className="space-y-3">
+            <div className="group">
+              <span className="text-[10px] font-bold text-slate-200 uppercase block mb-1">Kinetic Event</span>
+              <p className="text-[10px] text-slate-500 leading-relaxed italic">
+                Physical military action involving active force (missile strikes, engagements).
+              </p>
+            </div>
+            <div className="group">
+              <span className="text-[10px] font-bold text-slate-200 uppercase block mb-1">Hull Risk</span>
+              <p className="text-[10px] text-slate-500 leading-relaxed italic">
+                Insurance risk associated with physical damage to a vessel's structure.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Legal & System */}
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <Shield className="w-4 h-4 text-slate-500" />
+              <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em]">Compliance & Legal</h3>
+            </div>
+            <nav className="flex flex-col gap-2 text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+              <button onClick={() => setShowPrivacy(true)} className="text-left hover:text-amber-500 transition-colors flex items-center gap-2">
+                <ExternalLink className="w-3 h-3" /> Privacy Policy
+              </button>
+              <a href="#" className="hover:text-amber-500 transition-colors flex items-center gap-2">
+                <ExternalLink className="w-3 h-3" /> Terms of Service
+              </a>
+              <a href="mailto:intelligence@hormuz-monitor.live" className="hover:text-amber-500 transition-colors flex items-center gap-2">
+                <ExternalLink className="w-3 h-3" /> Contact / DMCA
+              </a>
+            </nav>
+          </div>
+          
+          <div className="space-y-2 text-[10px] font-mono text-slate-600 uppercase">
+            <p>Data Refresh: <time dateTime="PT30S">30s Interval</time></p>
+            <p>Protocol: Strategic-Link v4.2</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="pt-8 border-t border-slate-800/40 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p className="text-[10px] font-mono text-slate-700 uppercase tracking-widest">
+          © 2026 Tactical Intelligence Network | AES-256 GCM Encrypted
+        </p>
+        <div className="flex items-center gap-4">
+          <div className="adsbygoogle" style={{ display: 'block' }} data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></div>
+        </div>
+      </div>
+
+      {/* Privacy Policy Modal */}
+      <AnimatePresence>
+        {showPrivacy && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-950/95 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-8 custom-scrollbar"
+            >
+              <div className="flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
+                <h2 className="text-xl font-bold text-white uppercase tracking-tight">Privacy Policy & Compliance</h2>
+                <button onClick={() => setShowPrivacy(false)} className="text-slate-500 hover:text-white transition-colors text-2xl">✕</button>
+              </div>
+              <div className="prose prose-invert prose-sm max-w-none text-slate-400 space-y-4">
+                <p className="font-bold text-slate-200">Last Updated: April 14, 2026</p>
+                <p>
+                  This Privacy Policy outlines how the Hormuz Strategic Monitor ("we", "our", or "the platform") collects, uses, and protects your information in accordance with 2026 GDPR and CCPA standards.
+                </p>
+                <h3 className="text-slate-200 font-bold uppercase text-xs">1. Data Collection & Third-Party APIs</h3>
+                <p>
+                  Our platform aggregates real-time data from various third-party sources, including but not limited to <strong>API-Ninjas</strong> (for geographic data) and <strong>NewsAPI</strong> (for conflict intelligence). While we do not store personal identification data, these third-party services may log IP addresses for rate-limiting and security purposes.
+                </p>
+                <h3 className="text-slate-200 font-bold uppercase text-xs">2. Advertising, Cookies & Consent Management</h3>
+                <p>
+                  We use <strong>Google AdSense</strong> to serve advertisements. To comply with <strong>IAB TCF v2.3</strong> standards, we have implemented a <strong>Consent Management Platform (CMP)</strong>. This tool allows you to manage your privacy preferences and provide or withhold consent for data processing by us and our advertising partners.
+                </p>
+                <p>
+                  Google and other third-party vendors use cookies to serve ads based on a user's prior visits to our website. You can manage these cookies through the CMP interface provided upon your initial visit or by accessing the "Privacy Settings" link in our footer.
+                </p>
+                <h3 className="text-slate-200 font-bold uppercase text-xs">3. Log Files</h3>
+                <p>
+                  Hormuz Strategic Monitor follows a standard procedure of using log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks.
+                </p>
+                <h3 className="text-slate-200 font-bold uppercase text-xs">4. User Rights (GDPR/CCPA)</h3>
+                <p>
+                  Under the 2026 standards, users have the right to request access to their data, request deletion, and opt-out of automated profiling. Given our platform's focus on public strategic data, we do not maintain individual user profiles.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </footer>
+  );
+}
