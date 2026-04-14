@@ -1,0 +1,170 @@
+import React from 'react';
+import { ShieldAlert, Zap, Battery, Info, RefreshCw, Clock } from 'lucide-react';
+import { cn } from '@/src/lib/utils';
+import { format } from 'date-fns';
+
+interface RiskData {
+  warRiskPremium: number;
+  pipelineDiversion: {
+    volume: number;
+    capacity: number;
+  };
+  sprLevel: number;
+  lastUpdated: Date;
+}
+
+export default function StrategicRisk() {
+  const [data, setData] = React.useState<RiskData>({
+    warRiskPremium: 1.0,
+    pipelineDiversion: {
+      volume: 4.8,
+      capacity: 62
+    },
+    sprLevel: 33,
+    lastUpdated: new Date()
+  });
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+
+  const refreshData = () => {
+    setIsRefreshing(true);
+    // Simulate API delay
+    setTimeout(() => {
+      setData({
+        warRiskPremium: 0.8 + Math.random() * 0.6,
+        pipelineDiversion: {
+          volume: 4.5 + Math.random() * 0.8,
+          capacity: 55 + Math.floor(Math.random() * 15)
+        },
+        sprLevel: 30 + Math.floor(Math.random() * 10),
+        lastUpdated: new Date()
+      });
+      setIsRefreshing(false);
+    }, 800);
+  };
+
+  React.useEffect(() => {
+    const interval = setInterval(refreshData, 300000); // 5 minutes
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex flex-col h-full bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
+      <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900">
+        <div className="flex items-center gap-2">
+          <ShieldAlert className="w-5 h-5 text-amber-500" />
+          <h2 className="font-sans font-semibold text-slate-100 uppercase tracking-wider text-sm">Strategic Risk Indicators</h2>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-500 uppercase">
+            <Clock className="w-3 h-3" />
+            <span>Updated: {format(data.lastUpdated, 'HH:mm:ss')}</span>
+          </div>
+          <button 
+            onClick={refreshData}
+            disabled={isRefreshing}
+            className="p-1.5 hover:bg-slate-800 rounded transition-colors group disabled:opacity-50"
+          >
+            <RefreshCw className={cn(
+              "w-3.5 h-3.5 text-slate-400 group-hover:text-amber-500 transition-colors",
+              isRefreshing && "animate-spin"
+            )} />
+          </button>
+        </div>
+      </div>
+
+      <div className="flex-1 p-6 grid grid-cols-1 md:grid-cols-3 gap-8 bg-slate-950/30">
+        {/* Indicator 1: War Risk Premium (Gauge) */}
+        <div className="flex flex-col items-center justify-center space-y-4 p-4 bg-slate-900/40 border border-slate-800 rounded-xl relative group hover:border-amber-500/30 transition-colors">
+          <div className="absolute top-3 left-3">
+            <Info className="w-3 h-3 text-slate-600 group-hover:text-amber-500 transition-colors cursor-help" />
+          </div>
+          <div className="relative w-32 h-16 overflow-hidden">
+            {/* Semi-circle Gauge */}
+            <div className="absolute inset-0 border-[12px] border-slate-800 rounded-t-full"></div>
+            <div 
+              className="absolute inset-0 border-[12px] border-amber-500 rounded-t-full transition-all duration-1000 origin-bottom"
+              style={{ 
+                clipPath: 'inset(0 50% 0 0)', 
+                transform: `rotate(${Math.min(180, (data.warRiskPremium / 2) * 180)}deg)` 
+              }}
+            ></div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xl font-mono font-bold text-white">
+              {data.warRiskPremium.toFixed(1)}%
+            </div>
+          </div>
+          <div className="text-center">
+            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">War Risk Premium</h3>
+            <p className="text-[9px] text-slate-600 uppercase">Current Insurance Surge</p>
+          </div>
+        </div>
+
+        {/* Indicator 2: Pipeline Diversion (Progress Bar) */}
+        <div className="flex flex-col justify-center space-y-6 p-6 bg-slate-900/40 border border-slate-800 rounded-xl hover:border-blue-500/30 transition-colors">
+          <div className="space-y-3">
+            <div className="flex justify-between items-end">
+              <div className="flex items-center gap-2">
+                <div className="p-1 bg-blue-500/10 rounded">
+                  <Zap className="w-3 h-3 text-blue-400" />
+                </div>
+                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pipeline Diversion</h3>
+              </div>
+              <span className="text-xs font-mono font-bold text-blue-400">{data.pipelineDiversion.volume.toFixed(1)}M bpd</span>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex justify-between text-[9px] font-mono text-slate-500 uppercase">
+                <span>East-West & Fujairah</span>
+                <span>{data.pipelineDiversion.capacity}% Capacity</span>
+              </div>
+              <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-blue-500 transition-all duration-1000 shadow-[0_0_10px_rgba(59,130,246,0.3)]"
+                  style={{ width: `${data.pipelineDiversion.capacity}%` }}
+                ></div>
+              </div>
+            </div>
+            <p className="text-[9px] text-slate-600 leading-tight italic">
+              Volume of crude bypassing the Strait via land-based infrastructure.
+            </p>
+          </div>
+        </div>
+
+        {/* Indicator 3: Strategic Reserve Level (Battery) */}
+        <div className="flex flex-col items-center justify-center space-y-4 p-4 bg-slate-900/40 border border-slate-800 rounded-xl hover:border-red-500/30 transition-colors">
+          <div className="relative">
+            {/* Battery Icon Body */}
+            <div className="w-12 h-20 border-2 border-slate-700 rounded-md p-1 relative">
+              {/* Battery Tip */}
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-2 bg-slate-700 rounded-t-sm"></div>
+              {/* Battery Fill */}
+              <div 
+                className={cn(
+                  "absolute bottom-1 left-1 right-1 border rounded-sm transition-all duration-1000 flex items-center justify-center overflow-hidden",
+                  data.sprLevel < 35 ? "bg-red-500/20 border-red-500/30" : "bg-emerald-500/20 border-emerald-500/30"
+                )}
+                style={{ h: `${data.sprLevel}%`, height: `${data.sprLevel}%` }}
+              >
+                <div className={cn(
+                  "w-full h-full opacity-40",
+                  data.sprLevel < 35 ? "bg-red-500 animate-pulse" : "bg-emerald-500"
+                )}></div>
+              </div>
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-xs font-mono font-bold text-white drop-shadow-md">{data.sprLevel}%</span>
+            </div>
+          </div>
+          <div className="text-center">
+            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">U.S. SPR Level</h3>
+            <p className={cn(
+              "text-[9px] font-bold uppercase tracking-tighter",
+              data.sprLevel < 35 ? "text-red-400" : "text-emerald-400"
+            )}>
+              {data.sprLevel < 35 ? "Critical Threshold" : "Stable Supply"}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

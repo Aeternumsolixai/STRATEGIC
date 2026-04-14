@@ -1,0 +1,195 @@
+import React from 'react';
+import { BookOpen, Calendar, Clock, ArrowRight, ExternalLink, Link as LinkIcon } from 'lucide-react';
+import { motion } from 'motion/react';
+
+export default function BlogSection() {
+  const [selectedPostId, setSelectedPostId] = React.useState<number | null>(null);
+
+  const blogPosts = [
+    {
+      id: 1,
+      title: "The Economic Impact of the April 2026 Blockade: A New Era for Oil Logistics",
+      date: "April 14, 2026",
+      readTime: "8 min read",
+      excerpt: "As tensions in the Strait of Hormuz reach a critical boiling point, the global energy market is witnessing a fundamental shift in how crude oil is transported...",
+      image: "https://picsum.photos/seed/oil-tanker/800/450",
+      content: `
+        The Strait of Hormuz has long been the world's most sensitive energy chokepoint. However, the events of April 2026 have pushed the global logistics network into uncharted territory. With nearly 21 million barrels of oil passing through the 21-mile wide channel daily, any disruption sends shockwaves through the global economy.
+
+        The recent blockade, characterized by a sophisticated mix of kinetic drone strikes and electronic warfare, has forced major insurance underwriters to hike 'War Risk Premiums' to unprecedented levels. This isn't just a temporary price spike; it's a structural realignment of risk.
+
+        ### The Rise of Alternative Routes
+        For decades, the East-West Pipeline (Petroline) in Saudi Arabia and the Abu Dhabi Crude Oil Pipeline to Fujairah were seen as secondary safety valves. Today, they are the primary lifelines. We are seeing a 45% increase in throughput as tankers avoid the Strait entirely. This shift has massive implications for port infrastructure in the Red Sea and the Gulf of Oman.
+
+        ### The Digital Battlefield
+        Unlike previous conflicts, the 2026 crisis is defined by 'Silent Interdiction'. Cyber-attacks on AIS (Automatic Identification System) data have made traditional ship tracking unreliable, necessitating the high-frequency satellite monitoring systems we see today.
+
+        ### Global Economic Repercussions
+        The inflationary pressure from sustained $100+ oil prices is beginning to manifest in global manufacturing hubs. Supply chain resilience is no longer a buzzword; it is a survival requirement for energy-dependent economies in East Asia and Europe.
+
+        ### Conclusion
+        The era of 'Cheap Transit' is over. The April 2026 blockade has proven that the Strait of Hormuz is no longer just a geographic chokepoint, but a geopolitical leverage point that will dictate energy policy for the next decade.
+      `,
+      links: [
+        { label: "IEA Oil Market Report", url: "https://www.iea.org/reports/oil-market-report" },
+        { label: "EIA Strait of Hormuz Analysis", url: "https://www.eia.gov/todayinenergy/detail.php?id=39932" },
+        { label: "Lloyd's List Intelligence", url: "https://lloydslistintelligence.com/" }
+      ]
+    },
+    {
+      id: 2,
+      title: "Drone Swarms vs. Aegis: Analyzing the New Naval Doctrine",
+      date: "April 12, 2026",
+      readTime: "6 min read",
+      excerpt: "The recent engagement near the Musandam Peninsula has highlighted a critical vulnerability in traditional carrier group defense...",
+      image: "https://picsum.photos/seed/drone-tech/800/450",
+      content: `
+        The engagement near the Musandam Peninsula on April 12, 2026, represents a watershed moment in naval history. For the first time, a coordinated swarm of low-cost autonomous drones successfully saturated the multi-layered defenses of a modern Aegis-equipped destroyer.
+
+        ### Asymmetric Warfare
+        The doctrine of 'Saturate and Strike' has moved from theory to reality. By deploying hundreds of expendable units simultaneously, state actors can overwhelm even the most advanced radar and interceptor systems. The cost ratio—thousands of dollars for a drone versus millions for an interceptor missile—is fundamentally unsustainable for traditional blue-water navies.
+
+        ### Tactical Adaptation
+        Naval commanders are now forced to integrate directed-energy weapons (lasers) and high-frequency electronic jamming as primary defense layers rather than secondary backups. The 'Musandam Incident' will likely lead to a total redesign of carrier strike group formations in restricted waters.
+
+        ### Future of Naval Combat
+        We are moving toward a 'Distributed Lethality' model where smaller, unmanned surface vessels (USVs) act as forward sensors and interceptors, protecting the high-value manned assets from swarm saturation.
+      `,
+      links: [
+        { label: "USNI News - Naval Doctrine", url: "https://news.usni.org/" },
+        { label: "Janes Defense Intelligence", url: "https://www.janes.com/" },
+        { label: "Naval News - Drone Warfare", url: "https://www.navalnews.com/" }
+      ]
+    },
+    {
+      id: 3,
+      title: "Cyber-Sovereignty: The Battle for AIS Data Integrity",
+      date: "April 10, 2026",
+      readTime: "5 min read",
+      excerpt: "How state actors are using signal spoofing to create 'Ghost Fleets' in the Persian Gulf and the implications for maritime law...",
+      image: "https://picsum.photos/seed/cyber-war/800/450",
+      content: `
+        In the digital age, geography is defined by data. The Persian Gulf has become the primary testing ground for 'AIS Spoofing'—the practice of broadcasting false location data to create 'Ghost Fleets' or hide the movement of sanctioned tankers.
+
+        ### The Spoofing Epidemic
+        Since early 2026, over 30% of maritime traffic in the Strait of Hormuz has exhibited significant data anomalies. Tankers appearing to be in the middle of the desert while actually transiting the channel has become a daily occurrence.
+
+        ### Legal and Security Implications
+        This erosion of data integrity makes maritime law enforcement nearly impossible. When a collision occurs, whose data is the source of truth? The battle for 'Cyber-Sovereignty' over maritime data streams is now as critical as the physical control of the shipping lanes themselves.
+
+        ### Technological Countermeasures
+        Blockchain-verified AIS data and multi-source sensor fusion (combining radar, satellite imagery, and AIS) are being deployed to combat spoofing. However, the 'cat and mouse' game between hackers and security agencies continues to escalate.
+      `,
+      links: [
+        { label: "IMO Maritime Security", url: "https://www.imo.org/en/OurWork/Security/Pages/MaritimeSecurity.aspx" },
+        { label: "MarineTraffic - AIS Data", url: "https://www.marinetraffic.com/" },
+        { label: "Cyber Security in Shipping", url: "https://www.shipping-security.com/" }
+      ]
+    }
+  ];
+
+  const selectedPost = blogPosts.find(p => p.id === selectedPostId);
+
+  return (
+    <section className="space-y-8 py-12 border-t border-slate-800/60">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <BookOpen className="w-6 h-6 text-amber-500" />
+          <h2 className="text-2xl font-bold text-white uppercase tracking-tight">Strategic Insights & Deep Dives</h2>
+        </div>
+        <div className="h-px flex-1 bg-slate-800 mx-8 hidden md:block"></div>
+        <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Intelligence Analysis Unit</span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {blogPosts.map((post) => (
+          <div key={post.id} className="group bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-amber-500/30 transition-all flex flex-col">
+            <div className="aspect-video relative overflow-hidden">
+              <img 
+                src={post.image} 
+                alt={post.title} 
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-60"></div>
+            </div>
+            <div className="p-6 flex-1 flex flex-col">
+              <div className="flex items-center gap-4 mb-3 text-[10px] font-mono text-slate-500 uppercase">
+                <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {post.date}</span>
+                <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {post.readTime}</span>
+              </div>
+              <h3 className="text-lg font-bold text-slate-100 mb-3 group-hover:text-amber-500 transition-colors leading-tight">
+                {post.title}
+              </h3>
+              <p className="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                {post.excerpt}
+              </p>
+              <button 
+                onClick={() => setSelectedPostId(post.id)}
+                className="mt-auto flex items-center gap-2 text-[11px] font-bold text-amber-500 uppercase tracking-widest group/btn"
+              >
+                Read Full Analysis <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Full Article Modal */}
+      {selectedPost && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-xl">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl"
+          >
+            <div className="sticky top-0 bg-slate-900/80 backdrop-blur-md p-6 border-b border-slate-800 flex justify-between items-center z-10">
+              <h2 className="text-xl font-bold text-white uppercase tracking-tight">{selectedPost.title}</h2>
+              <button 
+                onClick={() => setSelectedPostId(null)}
+                className="p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-8 md:p-12 space-y-6 text-slate-300 leading-relaxed">
+              <img src={selectedPost.image} className="w-full h-64 object-cover rounded-xl mb-8 grayscale" alt="Article Header" referrerPolicy="no-referrer" />
+              <div className="prose prose-invert max-w-none">
+                <p className="text-lg text-slate-200 font-medium italic border-l-4 border-amber-500 pl-6 mb-8">
+                  "{selectedPost.excerpt}"
+                </p>
+                {selectedPost.content?.split('\n').map((para, i) => (
+                  <p key={i} className="mb-4">{para.trim()}</p>
+                ))}
+              </div>
+
+              {/* External Intelligence Links */}
+              {selectedPost.links && (
+                <div className="mt-12 pt-8 border-t border-slate-800">
+                  <div className="flex items-center gap-2 mb-6">
+                    <LinkIcon className="w-4 h-4 text-amber-500" />
+                    <h3 className="text-sm font-bold text-white uppercase tracking-widest">External Intelligence References</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {selectedPost.links.map((link, i) => (
+                      <a 
+                        key={i} 
+                        href={link.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between p-4 bg-slate-950/50 border border-slate-800 rounded-lg hover:border-amber-500/50 hover:bg-slate-900 transition-all group"
+                      >
+                        <span className="text-sm text-slate-300 group-hover:text-white transition-colors">{link.label}</span>
+                        <ExternalLink className="w-4 h-4 text-slate-600 group-hover:text-amber-500 transition-colors" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </section>
+  );
+}
